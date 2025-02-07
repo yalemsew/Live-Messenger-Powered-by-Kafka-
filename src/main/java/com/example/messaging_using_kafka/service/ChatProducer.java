@@ -1,5 +1,8 @@
 package com.example.messaging_using_kafka.service;
 
+import com.example.messaging_using_kafka.model.ChatMessage;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -12,9 +15,16 @@ public class ChatProducer {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendMessage(String message) {
-        // Optionally, you can specify a key. Here, we use null.
-        kafkaTemplate.send(TOPIC, message);
+    @Autowired
+    private ObjectMapper objectMapper; // Provided by Spring Boot automatically
+
+    public void sendMessage(ChatMessage chatMessage) {
+        try {
+            // Convert ChatMessage object to JSON string
+            String message = objectMapper.writeValueAsString(chatMessage);
+            kafkaTemplate.send(TOPIC, message);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }
-
