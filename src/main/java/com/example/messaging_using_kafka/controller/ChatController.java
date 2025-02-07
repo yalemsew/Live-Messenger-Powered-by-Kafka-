@@ -20,6 +20,7 @@ public class ChatController {
     public ResponseEntity<String> sendMessage(@RequestBody ChatMessage chatMessage) {
         // Set the current timestamp before sending
         chatMessage.setTimestamp(LocalDateTime.now());
+        System.out.println("Received chat message: " + chatMessage); // Debug log
         chatProducer.sendMessage(chatMessage);
         return ResponseEntity.ok("Message sent");
     }
