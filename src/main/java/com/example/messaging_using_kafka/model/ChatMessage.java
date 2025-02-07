@@ -13,5 +13,13 @@ public class ChatMessage {
     private String sender;
     private String content;
     private LocalDateTime timestamp;
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 }
 
